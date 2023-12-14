@@ -1,0 +1,68 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    .title {
+        font-size: 40px;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+
+    .text {
+        font-weight: 600;
+        padding-top: 5px;
+    }
+
+
+
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        outline: none;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        width: 100%;
+
+        &:hover {
+            background-color: #dedede;
+        }
+
+    }
+
+    .input-2 {
+        position: relative;
+
+        i {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
+
+    button {
+        padding: 10px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+
+        &.active {
+            background-color: #fe2c55;
+            color: #fff;
+        }
+    }
+
+    button[disabled=disabled],
+    button:disabled {
+        cursor: not-allowed;
+    }
+
+    .back {
+        text-align: center;
+        margin-top: 35px;
+        cursor: pointer;
+    }
+}
