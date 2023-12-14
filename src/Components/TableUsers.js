@@ -7,6 +7,9 @@ import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
 import _, { debounce } from 'lodash';
 import './TableUsers.scss'
+import { CSVLink, CSVDownload } from "react-csv";
+
+
 const TableUsers = (props) => {
     const [listUser, setListUser] = useState([]);
 
@@ -26,6 +29,7 @@ const TableUsers = (props) => {
     const [sortField, setSortField] = useState('id');
 
     const [keyword, setKeyWord] = useState('');
+    const [dataExport, setDataExport] = useState('');
 
     const handleClose = () => {
         setIsShowMoDalAddNew(false)
@@ -105,11 +109,49 @@ const TableUsers = (props) => {
         }
     }, 300)
 
+    const getUserExport = (event, done) => {
+        let result = [];
+        if (listUser && listUser.length > 0) {
+            result.push(['Id', 'Email', 'First name', 'Last name'])
+            listUser.map(item => {
+                let arr = [];
+                arr[0] = item.id;
+                arr[1] = item.email;
+                arr[2] = item.first_name;
+                arr[3] = item.last_name;
+                console.log(arr)
+                result.push(arr);
+            })
+            setDataExport(result);
+            done();
+        }
+    }
     return (
         <>
             <div className='my-3 add-new'>
                 <span>List Users:</span>
-                <button className='btn btn-success' onClick={() => setIsShowMoDalAddNew(true)}>Add new user</button>
+                <div className='group-btns'>
+                    <label htmlFor="test" className='btn btn-warning'>
+                        <i className="fa-solid fa-file-import"></i> Import
+                    </label>
+                    <input id='test' type='file' hidden />
+                    <CSVLink
+                        data={dataExport}
+                        filename={"users.csv"}
+                        className="btn btn-primary"
+                        asyncOnClick={true}
+                        onClick={getUserExport}
+                    >
+                        <i className="fa-solid fa-file-arrow-down"></i> Export
+                    </CSVLink>
+
+                    <button
+                        className='btn btn-success'
+                        onClick={() => setIsShowMoDalAddNew(true)}
+                    >
+                        <i className="fa-solid fa-circle-plus"></i> Add new
+                    </button>
+                </div>
             </div>
 
             <div className='col-4 my-3'>
