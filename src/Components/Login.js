@@ -28,8 +28,8 @@ const Login = (props) => {
             return;
         }
         setLoadingAPI(true)
-        let res = await LoginApi(email, password);
-        console.log(res)
+        let res = await LoginApi(email.trim(), password);
+        // console.log(res)
         if (res && res.token) {
             loginContext(email, res.token)
             navigate('/');
@@ -45,6 +45,12 @@ const Login = (props) => {
 
     const handleGoHome = () => {
         navigate('/')
+    }
+
+    const handlePressEnter = (event) => {
+        if (event && event.key === "Enter") {
+            handleLogin()
+        }
     }
 
     return (
@@ -68,6 +74,7 @@ const Login = (props) => {
                     placeholder='Password...'
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
+                    onKeyDown={(event) => handlePressEnter(event)}
                 />
                 <i className={isShowPassword === true ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}
                     onClick={() => setIsShowPassword(!isShowPassword)}
