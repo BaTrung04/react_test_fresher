@@ -5,10 +5,9 @@ import { LoginApi } from '../Services/UserService';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-
 import { UserContext } from '../context/UserContext';
 
-const Login = () => {
+const Login = (props) => {
     const { loginContext } = useContext(UserContext);
 
     const navigate = useNavigate();
