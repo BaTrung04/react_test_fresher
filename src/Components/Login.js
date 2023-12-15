@@ -3,22 +3,26 @@ import { useEffect, useState } from 'react';
 import './Login.scss'
 import { LoginApi } from '../Services/UserService';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 
+import { UserContext } from '../context/UserContext';
 
 const Login = () => {
+    const { loginContext } = useContext(UserContext);
+
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [loadingAPI, setLoadingAPI] = useState(false);
 
-    useEffect(() => {
-        let token = localStorage.getItem('token');
-        if (token) {
-            navigate('/')
-        }
-    }, [])
+    // useEffect(() => {
+    //     let token = localStorage.getItem('token');
+    //     if (token) {
+    //         navigate('/')
+    //     }
+    // }, [])
     const handleLogin = async () => {
         if (!email || !password) {
             toast.error("Email/Password is required!");
@@ -28,8 +32,9 @@ const Login = () => {
         let res = await LoginApi(email, password);
         console.log(res)
         if (res && res.token) {
-            localStorage.setItem("token", res.token)
+            loginContext(email, res.token)
             navigate('/');
+
         } else {
             if (res && res.status === 400) {
                 toast.error(res.data.error)
@@ -37,6 +42,10 @@ const Login = () => {
         }
         setLoadingAPI(false)
 
+    }
+
+    const handleGoHome = () => {
+        navigate('/')
     }
 
     return (
@@ -76,7 +85,8 @@ const Login = () => {
                     <i className="fas fa-sync fa-spin"></i>}Login
             </button>
             <div className='back'>
-                <i className="fa-solid fa-arrow-left"></i> Go Home
+                <i className="fa-solid fa-arrow-left"></i>
+                <span onClick={() => handleGoHome()}>Go Home</span>
             </div>
         </div >
 
